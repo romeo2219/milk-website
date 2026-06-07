@@ -444,9 +444,9 @@
     </nav>
 
     <div class="animation-wrapper" id="home">
-        <div id="loading" class="loading">Loading frames...</div>
+        <div id="loading" class="loading">Loading video...</div>
         <div id="animation-container">
-            <canvas id="scroll-canvas"></canvas>
+            <video id="scroll-video" src="Milk_swirl_forms_bottle_appears_202606051756.mp4" muted playsinline preload="auto" style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>
             <div id="hero-text" class="hero-text">
                 <h1 class="hero-title">Milk You Can Trust</h1>
                 <p class="hero-subtitle">Rich nutrition in every sip.</p>
@@ -553,48 +553,25 @@
     </footer>
 
     <script>
-        const canvas = document.getElementById('scroll-canvas');
-        const context = canvas.getContext('2d');
+        const video = document.getElementById('scroll-video');
         const loading = document.getElementById('loading');
 
-        const frameCount = 40;
-        const images = [];
-        let imagesLoaded = 0;
+        // Hide loading once video metadata is ready
+        video.addEventListener('loadedmetadata', () => {
+            loading.style.display = 'none';
+            video.currentTime = 0;
+            // Ensure the video is paused
+            video.pause();
+        });
 
-        // Pad number with leading zeros (e.g., 1 -> "001")
-        const currentFrame = index => `frames/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
-
-        // Preload images
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            img.src = currentFrame(i);
-            img.onload = () => {
-                imagesLoaded++;
-                if (imagesLoaded === frameCount) {
-                    loading.style.display = 'none';
-                    // Draw first frame
-                    renderFrame(1);
-                }
-            };
-            images.push(img);
-        }
-
-        function renderFrame(index) {
-            const img = images[index - 1];
-            if (!img) return;
-
-            // Set canvas dimensions to match image
-            canvas.width = img.width;
-            canvas.height = img.height;
-
-            // Draw image
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(img, 0, 0);
+        // Also fallback if video is already loaded from cache
+        if (video.readyState >= 1) {
+            loading.style.display = 'none';
+            video.pause();
         }
 
         window.addEventListener('scroll', () => {
             const wrapper = document.getElementById('home');
-            const wrapperRect = wrapper.getBoundingClientRect();
             
             // Calculate how far we've scrolled inside the animation wrapper
             const maxScroll = wrapper.offsetHeight - window.innerHeight;
@@ -612,21 +589,17 @@
                 scrollTop = maxScroll;
             }
 
-            if (maxScroll <= 0) return;
-
-            const scrollFraction = scrollTop / maxScroll;
-            
-            // Map scroll fraction to frame index (1 to 40)
-            const frameIndex = Math.min(
-                frameCount,
-                Math.max(1, Math.ceil(scrollFraction * frameCount))
-            );
-
-            requestAnimationFrame(() => renderFrame(frameIndex));
+            if (maxScroll > 0 && video.duration) {
+                const scrollFraction = scrollTop / maxScroll;
+                // Scrub video timeline
+                video.currentTime = scrollFraction * video.duration;
+            }
 
             // Fade out hero text at 30% scroll
             const heroText = document.getElementById('hero-text');
             if (heroText) {
+                // Determine scroll fraction using the clamped scrollTop
+                const scrollFraction = maxScroll > 0 ? scrollTop / maxScroll : 0;
                 let opacity = 1 - (scrollFraction / 0.3);
                 opacity = Math.max(0, Math.min(1, opacity));
                 heroText.style.opacity = opacity;
