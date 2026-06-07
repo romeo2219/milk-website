@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milk Scroll Animation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --surface: #f9f9fc;
+            --surface-container-low: #f3f3f6;
+            --on-surface: #1a1c1e;
+            --primary: #1c648e;
+            --on-primary: #ffffff;
+            --secondary: #5f5e5a;
+            --secondary-container: #e5e2dc;
+            --tertiary: #576157;
+            --tertiary-container: #abb5a9;
+            
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            --font-display: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'Manrope', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--surface);
+            color: var(--on-surface);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 24px 40px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            text-decoration: none;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: opacity 0.2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Update nav styles when scrolled past animation */
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 16px 40px;
+        }
+
+        .navbar.scrolled .nav-logo,
+        .navbar.scrolled .nav-links a {
+            color: var(--on-surface);
+            text-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 16px;
+            }
+            .nav-links {
+                display: none; /* simple mobile view */
+            }
+        }
+
+        .animation-wrapper {
+            height: 400vh;
+            position: relative;
+            background-color: #000;
+        }
+
+        #animation-container {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 24px;
+            z-index: 10;
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #ffffff;
+            z-index: 5;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 120px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin: 0;
+            text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-body);
+            font-size: 32px;
+            font-weight: 600;
+            margin: 16px 0 0 0;
+            letter-spacing: 0.02em;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 72px; }
+            .hero-subtitle { font-size: 20px; }
+        }
+
+        /* Pure & Wholesome Section */
+        .content-section {
+            padding: 80px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--surface);
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .chip {
+            background-color: var(--tertiary-container);
+            color: #2b332b;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            display: inline-block;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 56px;
+            letter-spacing: -0.02em;
+            margin: 0;
+            color: var(--on-surface);
+        }
+
+        p.body-lg {
+            font-size: 18px;
+            line-height: 28px;
+            color: var(--secondary);
+            margin: 0;
+            max-width: 600px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--on-primary);
+            border: none;
+            padding: 16px 32px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(0.98);
+            box-shadow: 0 4px 12px rgba(28, 100, 142, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 14px 30px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(28, 100, 142, 0.05);
+        }
+
+        .actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 32px;
+                line-height: 40px;
+            }
+            .content-section {
+                padding: 40px 16px;
+            }
+            .glass-card {
+                padding: 24px;
+            }
+            .actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .actions button {
+                width: 100%;
+            }
+        }
+
+        /* Feature Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background-color: #cae6ff; /* primary-fixed */
+            color: #004b70; /* on-primary-fixed-variant */
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 36px;
+            margin: 0;
+            color: var(--on-surface);
+        }
+
+        .body-md {
+            font-size: 16px;
+            line-height: 24px;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        /* Benefits Section */
+        .bg-surface-low {
+            background-color: var(--surface-container-low);
+            padding: 100px 24px;
+        }
+
+        .benefits-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 64px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .benefit-card {
+            background-color: #ffffff;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2f3133; /* inverse-surface */
+            color: #f0f0f3; /* inverse-on-surface */
+            padding: 80px 24px 40px 24px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+        
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+        
+        .footer-text {
+            color: #c0c7cf;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #90cdfd; /* inverse-primary */
+            margin-bottom: 24px;
+        }
+
+        .footer-links a {
+            color: #f0f0f3;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            display: block;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="nav-logo">Pure & Wholesome</a>
+        <div class="nav-links">
+            <a href="#about">Our Process</a>
+            <a href="#benefits">Health Benefits</a>
+        </div>
+    </nav>
+
+    <div class="animation-wrapper" id="home">
+        <div id="loading" class="loading">Loading frames...</div>
+        <div id="animation-container">
+            <canvas id="scroll-canvas"></canvas>
+            <div id="hero-text" class="hero-text">
+                <h1 class="hero-title">Milk You Can Trust</h1>
+                <p class="hero-subtitle">Rich nutrition in every sip.</p>
+            </div>
+        </div>
+    </div>
+    
+    <section class="content-section" id="about">
+        <div class="glass-card">
+            <span class="chip">100% Organic</span>
+            <h2>Pure & Wholesome</h2>
+            <p class="body-lg">
+                Experience the clarity and freshness of farm-to-table milk. 
+                Our natural processes ensure every drop is packed with vital nutrients, 
+                maintaining a premium, airy atmosphere from our farm to your glass.
+            </p>
+            <div class="actions">
+                <button class="btn-primary">Shop Natural Milk</button>
+                <button class="btn-secondary">Learn Our Process</button>
+            </div>
+            
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    </div>
+                    <h3>Fresh from the Farm</h3>
+                    <p class="body-md">Sourced locally from free-range, grass-fed cows. Processed within 24 hours to guarantee absolute freshness.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3>No Additives</h3>
+                    <p class="body-md">Zero preservatives, no artificial hormones, and antibiotic-free. Just pure, wholesome milk the way nature intended.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    </div>
+                    <h3>Sustainable Glass</h3>
+                    <p class="body-md">We use returnable, recyclable glass bottles to preserve the cold temperature and protect the rich flavor profile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="bg-surface-low" id="benefits">
+        <div class="benefits-header">
+            <span class="chip">Health & Wellness</span>
+            <h2>Nourishment for Every Body</h2>
+            <p class="body-lg">Our milk is a natural powerhouse of essential nutrients, meticulously crafted to support your daily vitality.</p>
+        </div>
+        <div class="card-grid">
+            <div class="benefit-card">
+                <h3>Rich in Calcium</h3>
+                <br>
+                <p class="body-md">Essential for building and maintaining strong bones and teeth. Just one glass provides over 30% of your daily calcium needs.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>High-Quality Protein</h3>
+                <br>
+                <p class="body-md">Contains all nine essential amino acids to support muscle repair, growth, and overall cellular health.</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Fortified with Vitamin D</h3>
+                <br>
+                <p class="body-md">Vitamin D works in harmony with Calcium to enhance absorption and support a healthy immune system.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">Pure & Wholesome.</div>
+                <p class="footer-text">Delivering the purest, freshest farm milk directly to your doorstep. Taste the clarity.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Products</h4>
+                <a href="#">Whole Milk</a>
+                <a href="#">Skimmed Milk</a>
+                <a href="#">Organic Cream</a>
+                <a href="#">Artisan Butter</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="#">Our Story</a>
+                <a href="#">Our Farms</a>
+                <a href="#">Sustainability</a>
+                <a href="#">Careers</a>
+            </div>
+            <div class="footer-links">
+                <h4>Support</h4>
+                <a href="#">Contact Us</a>
+                <a href="#">Delivery Info</a>
+                <a href="#">FAQs</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('scroll-canvas');
+        const context = canvas.getContext('2d');
+        const loading = document.getElementById('loading');
+
+        const frameCount = 40;
+        const images = [];
+        let imagesLoaded = 0;
+
+        // Pad number with leading zeros (e.g., 1 -> "001")
+        const currentFrame = index => `frames/ezgif-frame-${index.toString().padStart(3, '0')}.jpg`;
+
+        // Preload images
+        for (let i = 1; i <= frameCount; i++) {
+            const img = new Image();
+            img.src = currentFrame(i);
+            img.onload = () => {
+                imagesLoaded++;
+                if (imagesLoaded === frameCount) {
+                    loading.style.display = 'none';
+                    // Draw first frame
+                    renderFrame(1);
+                }
+            };
+            images.push(img);
+        }
+
+        function renderFrame(index) {
+            const img = images[index - 1];
+            if (!img) return;
+
+            // Set canvas dimensions to match image
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            // Draw image
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(img, 0, 0);
+        }
+
+        window.addEventListener('scroll', () => {
+            const wrapper = document.getElementById('home');
+            const wrapperRect = wrapper.getBoundingClientRect();
+            
+            // Calculate how far we've scrolled inside the animation wrapper
+            const maxScroll = wrapper.offsetHeight - window.innerHeight;
+            let scrollTop = window.scrollY;
+            
+            // Update navbar styling if scrolled past the animation
+            const navbar = document.getElementById('navbar');
+            if (scrollTop > maxScroll - 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            if (scrollTop > maxScroll) {
+                scrollTop = maxScroll;
+            }
+
+            if (maxScroll <= 0) return;
+
+            const scrollFraction = scrollTop / maxScroll;
+            
+            // Map scroll fraction to frame index (1 to 40)
+            const frameIndex = Math.min(
+                frameCount,
+                Math.max(1, Math.ceil(scrollFraction * frameCount))
+            );
+
+            requestAnimationFrame(() => renderFrame(frameIndex));
+
+            // Fade out hero text at 30% scroll
+            const heroText = document.getElementById('hero-text');
+            if (heroText) {
+                let opacity = 1 - (scrollFraction / 0.3);
+                opacity = Math.max(0, Math.min(1, opacity));
+                heroText.style.opacity = opacity;
+            }
+        });
+    </script>
+</body>
+</html>
