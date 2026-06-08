@@ -138,7 +138,7 @@
             width: 100%;
             background-color: #1a1c1e; /* fallback color */
             background-size: cover;
-            background-position: center;
+            background-position: center 30%; /* Focuses slightly above center which is usually better for subjects */
             background-repeat: no-repeat;
             display: flex;
             align-items: center;
@@ -166,27 +166,28 @@
 
         .hero-title {
             font-family: var(--font-display);
-            font-size: 120px;
+            /* Fluid typography: minimum 48px, ideal 8vw, maximum 120px */
+            font-size: clamp(48px, 8vw, 120px);
             font-weight: 700;
             line-height: 1.1;
             letter-spacing: -0.04em;
             margin: 0;
-            text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            padding: 0 16px;
         }
 
         .hero-subtitle {
             font-family: var(--font-body);
-            font-size: 32px;
+            /* Fluid typography: minimum 18px, ideal 3vw, maximum 32px */
+            font-size: clamp(18px, 3vw, 32px);
             font-weight: 600;
             margin: 16px 0 0 0;
             letter-spacing: 0.02em;
-            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+            padding: 0 16px;
         }
 
-        @media (max-width: 768px) {
-            .hero-title { font-size: 72px; }
-            .hero-subtitle { font-size: 20px; }
-        }
+
 
         /* Pure & Wholesome Section */
         .content-section {
