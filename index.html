@@ -102,6 +102,28 @@
             text-shadow: none;
         }
 
+        .nav-links a#admin-btn {
+            border: 1px solid #ffffff;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a#admin-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            opacity: 1;
+        }
+
+        .navbar.scrolled .nav-links a#admin-btn {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .navbar.scrolled .nav-links a#admin-btn:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+        }
+
         @media (max-width: 768px) {
             .navbar {
                 padding: 16px;
@@ -111,52 +133,36 @@
             }
         }
 
-        .animation-wrapper {
-            height: 400vh;
-            position: relative;
-            background-color: #000;
-        }
-
-        #animation-container {
-            position: sticky;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .hero-static {
             height: 100vh;
+            width: 100%;
+            background-color: #1a1c1e; /* fallback color */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: flex;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
+            justify-content: center;
+            position: relative;
         }
 
-        canvas {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        .loading {
+        .hero-static::after {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-family: var(--font-body);
-            font-size: 24px;
-            z-index: 10;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.35); /* Dark overlay to make text readable */
         }
 
-        .hero-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .hero-content {
+            position: relative;
+            z-index: 5;
             text-align: center;
             color: #ffffff;
-            z-index: 5;
-            pointer-events: none;
+            padding: 0 24px;
             width: 100%;
         }
+
+
 
         .hero-title {
             font-family: var(--font-display);
@@ -440,19 +446,16 @@
         <div class="nav-links">
             <a href="#about">Our Process</a>
             <a href="#benefits">Health Benefits</a>
+            <a href="#admin" id="admin-btn">Admin Portal</a>
         </div>
     </nav>
 
-    <div class="animation-wrapper" id="home">
-        <div id="loading" class="loading">Loading video...</div>
-        <div id="animation-container">
-            <video id="scroll-video" src="Milk_swirl_forms_bottle_appears_202606051756.mp4" muted playsinline preload="auto" style="max-width: 100%; max-height: 100%; object-fit: contain;"></video>
-            <div id="hero-text" class="hero-text">
-                <h1 class="hero-title">Milk You Can Trust</h1>
-                <p class="hero-subtitle">Rich nutrition in every sip.</p>
-            </div>
+    <header class="hero-static" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Milk You Can Trust</h1>
+            <p class="hero-subtitle">Rich nutrition in every sip.</p>
         </div>
-    </div>
+    </header>
     
     <section class="content-section" id="about">
         <div class="glass-card">
@@ -553,58 +556,45 @@
     </footer>
 
     <script>
-        const video = document.getElementById('scroll-video');
-        const loading = document.getElementById('loading');
-
-        // Hide loading once video metadata is ready
-        video.addEventListener('loadedmetadata', () => {
-            loading.style.display = 'none';
-            video.currentTime = 0;
-            // Ensure the video is paused
-            video.pause();
-        });
-
-        // Also fallback if video is already loaded from cache
-        if (video.readyState >= 1) {
-            loading.style.display = 'none';
-            video.pause();
-        }
-
         window.addEventListener('scroll', () => {
-            const wrapper = document.getElementById('home');
-            
-            // Calculate how far we've scrolled inside the animation wrapper
-            const maxScroll = wrapper.offsetHeight - window.innerHeight;
-            let scrollTop = window.scrollY;
-            
-            // Update navbar styling if scrolled past the animation
             const navbar = document.getElementById('navbar');
-            if (scrollTop > maxScroll - 50) {
+            if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
-            if (scrollTop > maxScroll) {
-                scrollTop = maxScroll;
-            }
-
-            if (maxScroll > 0 && video.duration) {
-                const scrollFraction = scrollTop / maxScroll;
-                // Scrub video timeline
-                video.currentTime = scrollFraction * video.duration;
-            }
-
-            // Fade out hero text at 30% scroll
-            const heroText = document.getElementById('hero-text');
-            if (heroText) {
-                // Determine scroll fraction using the clamped scrollTop
-                const scrollFraction = maxScroll > 0 ? scrollTop / maxScroll : 0;
-                let opacity = 1 - (scrollFraction / 0.3);
-                opacity = Math.max(0, Math.min(1, opacity));
-                heroText.style.opacity = opacity;
-            }
         });
+
+        // Automatically find and load the ChatGPT image regardless of its extension
+        const baseName = "ChatGPT Image Jun 8, 2026, 11_46_22 AM";
+        const extensions = ['.webp', '.png', '.jpg', '.jpeg'];
+        let extIndex = 0;
+        const heroSection = document.getElementById('home');
+
+        function loadHeroImage() {
+            if (extIndex >= extensions.length) return; // Stop if none worked
+            
+            const testImg = new Image();
+            // Create the full filename
+            const fileName = baseName + extensions[extIndex];
+            
+            testImg.onload = () => {
+                // If it loads successfully, set it as the background!
+                // We use encodeURI to safely handle the spaces and commas in the filename
+                heroSection.style.backgroundImage = `url('${encodeURI(fileName)}')`;
+            };
+            
+            testImg.onerror = () => {
+                // If it fails (e.g. 404 Not Found), try the next extension
+                extIndex++;
+                loadHeroImage();
+            };
+            
+            testImg.src = fileName;
+        }
+
+        // Start testing the image extensions
+        loadHeroImage();
     </script>
 </body>
 </html>
