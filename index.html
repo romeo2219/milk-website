@@ -540,19 +540,13 @@
                 <div id="formContent">
                     <h3>📋 Customer Registration</h3>
                     <form id="customerForm" novalidate>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="fullName">Full Name *</label>
-                                <input type="text" id="fullName" placeholder="Ramesh Kumar" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number *</label>
-                                <input type="tel" id="phone" placeholder="98765 43210" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" placeholder="Your full name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" placeholder="ramesh@example.com">
+                            <input type="email" id="email" placeholder="your@email.com">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -615,7 +609,7 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Phone</th>
+                            <th>Email</th>
                             <th>City</th>
                             <th>Pincode</th>
                             <th>Milk Type</th>
@@ -830,7 +824,6 @@
         document.getElementById('customerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name    = document.getElementById('fullName').value.trim();
-            const phone   = document.getElementById('phone').value.trim();
             const email   = document.getElementById('email').value.trim();
             const city    = document.getElementById('city').value.trim();
             const pincode = document.getElementById('pincode').value.trim();
@@ -838,18 +831,14 @@
             const milk    = document.getElementById('milkType').value;
             const qty     = document.getElementById('quantity').value;
 
-            if (!name || !phone || !city || !pincode || !address || !milk) {
+            if (!name || !city || !pincode || !address || !milk) {
                 alert('Please fill in all required fields (*).');
-                return;
-            }
-            if (!/^\d{10}$/.test(phone.replace(/\s/g, ''))) {
-                alert('Please enter a valid 10-digit phone number.');
                 return;
             }
 
             const customer = {
                 id: Date.now(),
-                name, phone, email, city, pincode, address, milk, qty,
+                name, email, city, pincode, address, milk, qty,
                 date: new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
             };
             customers.push(customer);
@@ -874,7 +863,7 @@
         function renderCustomerTable() {
             const tbody = document.getElementById('customersBody');
             if (!customers.length) {
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>';
                 return;
             }
             const tagClass = { 'Whole Milk': 'tag-whole', 'Toned Milk': 'tag-toned', 'Skimmed Milk': 'tag-skim', 'Organic Milk': 'tag-organic' };
@@ -882,7 +871,7 @@
                 <tr>
                     <td>${i + 1}</td>
                     <td><strong>${c.name}</strong></td>
-                    <td>${c.phone}</td>
+                    <td>${c.email || '—'}</td>
                     <td>${c.city}</td>
                     <td>${c.pincode}</td>
                     <td><span class="tag ${tagClass[c.milk] || ''}">${c.milk}</span></td>
