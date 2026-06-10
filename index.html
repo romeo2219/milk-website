@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Milk Scroll Animation</title>
+    <title>Pure & Wholesome | Fresh Farm Milk</title>
+    <meta name="description" content="Pure & Wholesome – The Indian Dudh Wala. Fresh farm milk delivered to your doorstep. Rich nutrition in every sip.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
@@ -18,432 +19,416 @@
             --secondary-container: #e5e2dc;
             --tertiary: #576157;
             --tertiary-container: #abb5a9;
-            
             --radius-sm: 0.25rem;
             --radius-md: 0.5rem;
             --radius-lg: 1rem;
             --radius-xl: 1.5rem;
             --radius-full: 9999px;
-            
             --font-display: 'Plus Jakarta Sans', sans-serif;
             --font-body: 'Manrope', sans-serif;
         }
-
+        *, *::before, *::after { box-sizing: border-box; }
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: var(--surface);
             color: var(--on-surface);
             font-family: var(--font-body);
             overflow-x: hidden;
         }
+        html { scroll-behavior: smooth; }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Navbar */
+        /* ─── NAVBAR ─── */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 24px 40px;
+            position: fixed; top: 0; left: 0;
+            width: 100%; padding: 24px 40px;
             box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: transparent;
-            transition: background 0.3s ease;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 200; background: transparent;
+            transition: background 0.3s ease, padding 0.3s ease;
         }
-
         .nav-logo {
-            font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-            letter-spacing: -0.02em;
+            font-family: var(--font-display); font-size: 24px; font-weight: 700;
+            color: #ffffff; text-decoration: none; letter-spacing: -0.02em;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-
+        .nav-links { display: flex; gap: 32px; align-items: center; }
         .nav-links a {
-            font-family: var(--font-body);
-            font-size: 16px;
-            font-weight: 600;
-            color: #ffffff;
-            text-decoration: none;
+            font-family: var(--font-body); font-size: 16px; font-weight: 600;
+            color: #ffffff; text-decoration: none;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
             transition: opacity 0.2s;
         }
-
-        .nav-links a:hover {
-            opacity: 0.8;
-        }
-
-        /* Update nav styles when scrolled past animation */
+        .nav-links a:hover { opacity: 0.8; }
         .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 16px 40px;
+            background: rgba(255,255,255,0.88);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05); padding: 16px 40px;
         }
-
         .navbar.scrolled .nav-logo,
-        .navbar.scrolled .nav-links a {
-            color: var(--on-surface);
-            text-shadow: none;
-        }
-
+        .navbar.scrolled .nav-links a { color: var(--on-surface); text-shadow: none; }
         .nav-links a#admin-btn {
-            border: 1px solid #ffffff;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
+            border: 1.5px solid #ffffff; padding: 8px 18px;
+            border-radius: var(--radius-full); transition: all 0.2s ease;
         }
-
-        .nav-links a#admin-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            opacity: 1;
-        }
-
-        .navbar.scrolled .nav-links a#admin-btn {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .navbar.scrolled .nav-links a#admin-btn:hover {
-            background-color: var(--primary);
-            color: #ffffff;
-        }
-
+        .nav-links a#admin-btn:hover { background: rgba(255,255,255,0.2); opacity: 1; }
+        .navbar.scrolled .nav-links a#admin-btn { border-color: var(--primary); color: var(--primary); }
+        .navbar.scrolled .nav-links a#admin-btn:hover { background: var(--primary); color: #fff; }
         @media (max-width: 768px) {
-            .navbar {
-                padding: 16px;
-            }
-            .nav-links {
-                display: none; /* simple mobile view */
-            }
+            .navbar { padding: 16px 20px; }
+            .nav-links { gap: 16px; }
+            .nav-links a { font-size: 13px; }
+            .nav-links a#admin-btn { padding: 6px 12px; }
+        }
+        @media (max-width: 480px) {
+            .nav-links a:not(#admin-btn) { display: none; }
         }
 
+        /* ─── HERO ─── */
         .hero-static {
-            height: 100vh;
-            width: 100%;
-            background-color: #1a1c1e; /* fallback color */
-            background-size: cover;
-            background-position: center 30%; /* Focuses slightly above center which is usually better for subjects */
+            height: 100vh; width: 100%;
+            background-color: #1a1c1e;
+            background-size: cover; background-position: center 30%;
             background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             position: relative;
         }
-
         .hero-static::after {
-            content: '';
-            position: absolute;
+            content: ''; position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.35); /* Dark overlay to make text readable */
+            background: rgba(0,0,0,0.4);
         }
-
         .hero-content {
-            position: relative;
-            z-index: 5;
-            text-align: center;
-            color: #ffffff;
-            padding: 0 24px;
-            width: 100%;
+            position: relative; z-index: 5;
+            text-align: center; color: #fff; padding: 0 24px; width: 100%;
         }
-
-
-
         .hero-title {
             font-family: var(--font-display);
-            /* Fluid typography: minimum 48px, ideal 8vw, maximum 120px */
-            font-size: clamp(48px, 8vw, 120px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.04em;
-            margin: 0;
-            text-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            padding: 0 16px;
+            font-size: clamp(42px, 8vw, 110px);
+            font-weight: 700; line-height: 1.1; letter-spacing: -0.04em;
+            margin: 0; text-shadow: 0 8px 32px rgba(0,0,0,0.6); padding: 0 16px;
         }
-
         .hero-subtitle {
             font-family: var(--font-body);
-            /* Fluid typography: minimum 18px, ideal 3vw, maximum 32px */
-            font-size: clamp(18px, 3vw, 32px);
-            font-weight: 600;
-            margin: 16px 0 0 0;
-            letter-spacing: 0.02em;
-            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-            padding: 0 16px;
+            font-size: clamp(16px, 2.5vw, 28px);
+            font-weight: 600; margin: 16px 0 0 0; letter-spacing: 0.02em;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.6); padding: 0 16px;
         }
 
-
-
-        /* Pure & Wholesome Section */
+        /* ─── CONTENT SECTION ─── */
         .content-section {
-            padding: 80px 24px;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 80px 24px; max-width: 1200px; margin: 0 auto;
             background-color: var(--surface);
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
+            display: flex; flex-direction: column; gap: 40px;
         }
-
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            align-items: flex-start;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--radius-xl); padding: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; gap: 24px; align-items: flex-start;
         }
-
         .chip {
-            background-color: var(--tertiary-container);
-            color: #2b332b;
-            padding: 8px 16px;
-            border-radius: var(--radius-full);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            display: inline-block;
+            background-color: var(--tertiary-container); color: #2b332b;
+            padding: 8px 16px; border-radius: var(--radius-full);
+            font-size: 14px; font-weight: 600; letter-spacing: 0.01em; display: inline-block;
         }
-
         h2 {
-            font-family: var(--font-display);
-            font-size: 48px;
-            font-weight: 700;
-            line-height: 56px;
-            letter-spacing: -0.02em;
-            margin: 0;
-            color: var(--on-surface);
+            font-family: var(--font-display); font-size: 48px; font-weight: 700;
+            line-height: 56px; letter-spacing: -0.02em; margin: 0; color: var(--on-surface);
         }
-
-        p.body-lg {
-            font-size: 18px;
-            line-height: 28px;
-            color: var(--secondary);
-            margin: 0;
-            max-width: 600px;
-        }
-
+        p.body-lg { font-size: 18px; line-height: 28px; color: var(--secondary); margin: 0; max-width: 600px; }
         .btn-primary {
-            background-color: var(--primary);
-            color: var(--on-primary);
-            border: none;
-            padding: 16px 32px;
-            border-radius: var(--radius-md);
-            font-family: var(--font-body);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background-color: var(--primary); color: var(--on-primary);
+            border: none; padding: 16px 32px; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        .btn-primary:hover {
-            transform: scale(0.98);
-            box-shadow: 0 4px 12px rgba(28, 100, 142, 0.3);
-        }
-        
+        .btn-primary:hover { transform: scale(0.98); box-shadow: 0 4px 12px rgba(28,100,142,0.3); }
         .btn-secondary {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 14px 30px;
-            border-radius: var(--radius-md);
-            font-family: var(--font-body);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            background-color: transparent; color: var(--primary);
+            border: 2px solid var(--primary); padding: 14px 30px;
+            border-radius: var(--radius-md); font-family: var(--font-body);
+            font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;
         }
-        
-        .btn-secondary:hover {
-            background-color: rgba(28, 100, 142, 0.05);
-        }
-
-        .actions {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
+        .btn-secondary:hover { background-color: rgba(28,100,142,0.05); }
+        .actions { display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
         @media (max-width: 768px) {
-            h2 {
-                font-size: 32px;
-                line-height: 40px;
-            }
-            .content-section {
-                padding: 40px 16px;
-            }
-            .glass-card {
-                padding: 24px;
-            }
-            .actions {
-                flex-direction: column;
-                width: 100%;
-            }
-            .actions button {
-                width: 100%;
-            }
+            h2 { font-size: 32px; line-height: 40px; }
+            .content-section { padding: 40px 16px; }
+            .glass-card { padding: 24px; }
+            .actions { flex-direction: column; width: 100%; }
+            .actions button { width: 100%; }
         }
 
-        /* Feature Grid */
+        /* ─── FEATURES GRID ─── */
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            margin-top: 40px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+            gap: 32px; margin-top: 24px; width: 100%;
         }
-
-        .feature-item {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
+        .feature-item { display: flex; flex-direction: column; gap: 16px; }
         .feature-icon {
-            width: 56px;
-            height: 56px;
-            background-color: #cae6ff; /* primary-fixed */
-            color: #004b70; /* on-primary-fixed-variant */
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 56px; height: 56px; background-color: #cae6ff; color: #004b70;
+            border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center;
         }
+        .feature-icon svg { width: 28px; height: 28px; }
+        h3 { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 32px; margin: 0; color: var(--on-surface); }
+        .body-md { font-size: 16px; line-height: 24px; color: var(--secondary); margin: 0; }
 
-        .feature-icon svg {
-            width: 28px;
-            height: 28px;
-        }
-
-        h3 {
-            font-family: var(--font-display);
-            font-size: 28px;
-            font-weight: 600;
-            line-height: 36px;
-            margin: 0;
-            color: var(--on-surface);
-        }
-
-        .body-md {
-            font-size: 16px;
-            line-height: 24px;
-            color: var(--secondary);
-            margin: 0;
-        }
-
-        /* Benefits Section */
-        .bg-surface-low {
-            background-color: var(--surface-container-low);
-            padding: 100px 24px;
-        }
-
+        /* ─── BENEFITS SECTION ─── */
+        .bg-surface-low { background-color: var(--surface-container-low); padding: 100px 24px; }
         .benefits-header {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto 64px auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
+            text-align: center; max-width: 800px; margin: 0 auto 64px auto;
+            display: flex; flex-direction: column; gap: 16px; align-items: center;
         }
-
         .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+            gap: 32px; max-width: 1200px; margin: 0 auto;
         }
-        
         .benefit-card {
-            background-color: #ffffff;
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.03);
+            background-color: #fff; border-radius: var(--radius-xl); padding: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.03);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .benefit-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
 
-        .benefit-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        /* ─── STORE LOCATOR MODAL ─── */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+            z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: #fff; border-radius: var(--radius-xl);
+            width: 100%; max-width: 680px; max-height: 90vh;
+            overflow-y: auto; padding: 40px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+            animation: slideUp 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 28px;
+        }
+        .modal-header h2 { font-size: 28px; line-height: 36px; }
+        .modal-close {
+            background: var(--surface-container-low); border: none; cursor: pointer;
+            width: 40px; height: 40px; border-radius: var(--radius-full);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: var(--secondary); flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .modal-close:hover { background: #e2e2e5; }
+        .location-btn {
+            width: 100%; padding: 16px; border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), #2580b3);
+            color: #fff; border: none; font-family: var(--font-body);
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: opacity 0.2s, transform 0.2s; margin-bottom: 24px;
+        }
+        .location-btn:hover { opacity: 0.9; transform: scale(0.99); }
+        .location-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .divider {
+            display: flex; align-items: center; gap: 16px;
+            color: var(--secondary); font-size: 14px; margin-bottom: 24px;
+        }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px; background: #e2e2e5;
+        }
+        .city-search { position: relative; margin-bottom: 24px; }
+        .city-search input {
+            width: 100%; padding: 14px 16px 14px 48px;
+            border: 1.5px solid #e2e2e5; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 15px; color: var(--on-surface);
+            background: var(--surface); outline: none; transition: border-color 0.2s;
+        }
+        .city-search input:focus { border-color: var(--primary); }
+        .city-search svg { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--secondary); }
+        .stores-list { display: flex; flex-direction: column; gap: 16px; }
+        .store-card {
+            border: 1.5px solid #e8e8ea; border-radius: var(--radius-lg); padding: 20px 24px;
+            display: flex; align-items: flex-start; gap: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s; cursor: default;
+        }
+        .store-card:hover { border-color: var(--primary); box-shadow: 0 4px 16px rgba(28,100,142,0.1); }
+        .store-card.nearest { border-color: #1c648e; background: #f0f8ff; }
+        .nearest-badge {
+            background: var(--primary); color: #fff; font-size: 11px; font-weight: 700;
+            padding: 3px 10px; border-radius: var(--radius-full); white-space: nowrap;
+        }
+        .store-icon {
+            width: 44px; height: 44px; background: #cae6ff; border-radius: var(--radius-md);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            color: #004b70;
+        }
+        .store-info h4 { font-family: var(--font-display); font-size: 16px; font-weight: 700; margin: 0 0 4px 0; color: var(--on-surface); }
+        .store-info p { font-size: 14px; color: var(--secondary); margin: 0; line-height: 20px; }
+        .store-info .store-meta { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; color: var(--secondary); }
+        .store-info .store-meta span { display: flex; align-items: center; gap: 4px; }
+        .map-link {
+            margin-top: 10px; display: inline-block; font-size: 13px; font-weight: 600;
+            color: var(--primary); text-decoration: none; transition: opacity 0.2s;
+        }
+        .map-link:hover { opacity: 0.7; }
+        .no-results { text-align: center; padding: 40px 20px; color: var(--secondary); font-size: 16px; }
+        @media (max-width: 600px) {
+            .modal-box { padding: 24px 20px; }
+            .modal-header h2 { font-size: 22px; }
         }
 
-        /* Footer */
-        footer {
-            background-color: #2f3133; /* inverse-surface */
-            color: #f0f0f3; /* inverse-on-surface */
-            padding: 80px 24px 40px 24px;
+        /* ─── ADMIN PORTAL SECTION ─── */
+        .admin-section {
+            background: linear-gradient(135deg, #1a1c1e 0%, #2c3e50 100%);
+            padding: 100px 24px;
         }
-        
+        .admin-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+        }
+        @media (max-width: 900px) {
+            .admin-inner { grid-template-columns: 1fr; gap: 48px; }
+        }
+        .admin-left h2 { color: #fff; margin-bottom: 16px; }
+        .admin-left p { color: rgba(255,255,255,0.65); font-size: 16px; line-height: 26px; }
+        .admin-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(144,205,253,0.15); border: 1px solid rgba(144,205,253,0.3);
+            color: #90cdfd; padding: 8px 16px; border-radius: var(--radius-full);
+            font-size: 13px; font-weight: 600; margin-bottom: 24px;
+        }
+        .admin-stat-row { display: flex; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
+        .admin-stat {
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-lg); padding: 20px 24px; flex: 1; min-width: 120px;
+        }
+        .admin-stat .stat-num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: #90cdfd; }
+        .admin-stat .stat-label { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+        .reg-form {
+            background: #fff; border-radius: var(--radius-xl); padding: 40px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+        }
+        .reg-form h3 { font-size: 22px; margin: 0 0 28px 0; color: var(--on-surface); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; font-size: 13px; font-weight: 600;
+            color: var(--secondary); margin-bottom: 8px; letter-spacing: 0.02em;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%; padding: 13px 16px;
+            border: 1.5px solid #e2e2e5; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 15px; color: var(--on-surface);
+            background: var(--surface); outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s; resize: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(28,100,142,0.1);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 500px) { .form-row { grid-template-columns: 1fr; } }
+        .form-submit {
+            width: 100%; padding: 16px; background: var(--primary);
+            color: #fff; border: none; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; margin-top: 8px;
+        }
+        .form-submit:hover { transform: scale(0.99); box-shadow: 0 8px 24px rgba(28,100,142,0.35); }
+        .form-success {
+            display: none; text-align: center; padding: 32px 20px;
+        }
+        .form-success .success-icon {
+            width: 64px; height: 64px; background: #d1f2e1; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px auto; font-size: 28px;
+        }
+        .form-success h3 { color: #1a7a4a; margin: 0 0 8px 0; font-size: 22px; }
+        .form-success p { color: var(--secondary); margin: 0 0 20px 0; }
+        .form-success .register-another {
+            background: none; border: 1.5px solid var(--primary); color: var(--primary);
+            padding: 12px 24px; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 15px; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .form-success .register-another:hover { background: var(--primary); color: #fff; }
+
+        /* ─── CUSTOMER TABLE (Admin View) ─── */
+        .customer-table-section {
+            background: #f3f3f6; padding: 60px 24px;
+        }
+        .customer-table-inner { max-width: 1100px; margin: 0 auto; }
+        .table-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+        }
+        .table-header h2 { font-size: 28px; margin: 0; }
+        .clear-btn {
+            background: #ffdad6; color: #93000a; border: none;
+            padding: 10px 20px; border-radius: var(--radius-md);
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .clear-btn:hover { background: #ffb4ab; }
+        .table-wrap { overflow-x: auto; border-radius: var(--radius-lg); }
+        table {
+            width: 100%; border-collapse: collapse;
+            background: #fff; border-radius: var(--radius-lg); overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        th {
+            background: var(--primary); color: #fff;
+            padding: 14px 20px; text-align: left;
+            font-size: 13px; font-weight: 600; letter-spacing: 0.03em;
+        }
+        td { padding: 14px 20px; font-size: 14px; border-bottom: 1px solid #f0f0f3; }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) td { background: #f9f9fc; }
+        .empty-table { text-align: center; padding: 48px; color: var(--secondary); font-size: 15px; }
+        .tag {
+            display: inline-block; padding: 3px 10px; border-radius: var(--radius-full);
+            font-size: 12px; font-weight: 600;
+        }
+        .tag-whole { background: #d1f2e1; color: #1a7a4a; }
+        .tag-skim { background: #cae6ff; color: #004b70; }
+        .tag-toned { background: #ffe0b2; color: #8b4c00; }
+        .tag-organic { background: #abb5a9; color: #2b332b; }
+
+        /* ─── FOOTER ─── */
+        footer { background-color: #2f3133; color: #f0f0f3; padding: 80px 24px 40px; }
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 40px;
         }
-        
-        .footer-logo {
-            font-family: var(--font-display);
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #ffffff;
-        }
-        
-        .footer-text {
-            color: #c0c7cf;
-            font-size: 16px;
-            line-height: 24px;
-            max-width: 300px;
-        }
-
+        .footer-logo { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #fff; }
+        .footer-text { color: #c0c7cf; font-size: 16px; line-height: 24px; max-width: 300px; }
         .footer-links h4 {
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: #90cdfd; /* inverse-primary */
-            margin-bottom: 24px;
+            font-family: var(--font-body); font-size: 14px; font-weight: 600;
+            letter-spacing: 0.05em; text-transform: uppercase; color: #90cdfd; margin-bottom: 24px;
         }
-
         .footer-links a {
-            color: #f0f0f3;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.2s;
-            display: block;
-            margin-bottom: 16px;
-            font-size: 16px;
+            color: #f0f0f3; text-decoration: none; opacity: 0.8;
+            transition: opacity 0.2s; display: block; margin-bottom: 16px; font-size: 16px;
         }
-
-        .footer-links a:hover {
-            opacity: 1;
+        .footer-links a:hover { opacity: 1; }
+        .footer-bottom {
+            max-width: 1200px; margin: 48px auto 0;
+            padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px; color: rgba(255,255,255,0.4); text-align: center;
         }
     </style>
 </head>
 <body>
+
+    <!-- ─── NAVBAR ─── -->
     <nav class="navbar" id="navbar">
-        <a href="#home" class="nav-logo">Pure & Wholesome</a>
+        <a href="#home" class="nav-logo">Pure &amp; Wholesome</a>
         <div class="nav-links">
             <a href="#about">Our Process</a>
             <a href="#benefits">Health Benefits</a>
@@ -451,46 +436,48 @@
         </div>
     </nav>
 
+    <!-- ─── HERO ─── -->
     <header class="hero-static" id="home">
         <div class="hero-content">
             <h1 class="hero-title">Milk You Can Trust</h1>
             <p class="hero-subtitle">Rich nutrition in every sip.</p>
         </div>
     </header>
-    
+
+    <!-- ─── ABOUT / SHOP SECTION ─── -->
     <section class="content-section" id="about">
         <div class="glass-card">
             <span class="chip">100% Organic</span>
-            <h2>Pure & Wholesome</h2>
+            <h2>Pure &amp; Wholesome</h2>
             <p class="body-lg">
-                Experience the clarity and freshness of farm-to-table milk. 
-                Our natural processes ensure every drop is packed with vital nutrients, 
+                Experience the clarity and freshness of farm-to-table milk.
+                Our natural processes ensure every drop is packed with vital nutrients,
                 maintaining a premium, airy atmosphere from our farm to your glass.
             </p>
             <div class="actions">
-                <button class="btn-primary">Shop Natural Milk</button>
+                <button class="btn-primary" id="shopBtn">🛒 Shop Natural Milk</button>
                 <button class="btn-secondary">Learn Our Process</button>
             </div>
-            
+
             <!-- Features Grid -->
             <div class="features-grid">
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
                     </div>
                     <h3>Fresh from the Farm</h3>
                     <p class="body-md">Sourced locally from free-range, grass-fed cows. Processed within 24 hours to guarantee absolute freshness.</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
                     <h3>No Additives</h3>
                     <p class="body-md">Zero preservatives, no artificial hormones, and antibiotic-free. Just pure, wholesome milk the way nature intended.</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     </div>
                     <h3>Sustainable Glass</h3>
                     <p class="body-md">We use returnable, recyclable glass bottles to preserve the cold temperature and protect the rich flavor profile.</p>
@@ -499,37 +486,156 @@
         </div>
     </section>
 
-    <!-- Benefits Section -->
+    <!-- ─── BENEFITS SECTION ─── -->
     <section class="bg-surface-low" id="benefits">
         <div class="benefits-header">
-            <span class="chip">Health & Wellness</span>
+            <span class="chip">Health &amp; Wellness</span>
             <h2>Nourishment for Every Body</h2>
             <p class="body-lg">Our milk is a natural powerhouse of essential nutrients, meticulously crafted to support your daily vitality.</p>
         </div>
         <div class="card-grid">
             <div class="benefit-card">
-                <h3>Rich in Calcium</h3>
-                <br>
+                <h3>🦴 Rich in Calcium</h3><br>
                 <p class="body-md">Essential for building and maintaining strong bones and teeth. Just one glass provides over 30% of your daily calcium needs.</p>
             </div>
             <div class="benefit-card">
-                <h3>High-Quality Protein</h3>
-                <br>
+                <h3>💪 High-Quality Protein</h3><br>
                 <p class="body-md">Contains all nine essential amino acids to support muscle repair, growth, and overall cellular health.</p>
             </div>
             <div class="benefit-card">
-                <h3>Fortified with Vitamin D</h3>
-                <br>
+                <h3>☀️ Fortified with Vitamin D</h3><br>
                 <p class="body-md">Vitamin D works in harmony with Calcium to enhance absorption and support a healthy immune system.</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ─── ADMIN PORTAL SECTION ─── -->
+    <section class="admin-section" id="admin">
+        <div class="admin-inner">
+            <div class="admin-left">
+                <div class="admin-badge">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
+                    Customer Portal
+                </div>
+                <h2>Register for Home Delivery</h2>
+                <p>Sign up and we'll get fresh milk delivered right to your doorstep every morning. Fill in your details and we'll reach out to set up your delivery schedule.</p>
+                <div class="admin-stat-row">
+                    <div class="admin-stat">
+                        <div class="stat-num" id="totalCustomers">0</div>
+                        <div class="stat-label">Registered Customers</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="stat-num">24h</div>
+                        <div class="stat-label">Farm to Doorstep</div>
+                    </div>
+                    <div class="admin-stat">
+                        <div class="stat-num">100%</div>
+                        <div class="stat-label">Organic Certified</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registration Form -->
+            <div class="reg-form">
+                <div id="formContent">
+                    <h3>📋 Customer Registration</h3>
+                    <form id="customerForm" novalidate>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" placeholder="Ramesh Kumar" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" placeholder="98765 43210" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" placeholder="ramesh@example.com">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City *</label>
+                                <input type="text" id="city" placeholder="Mumbai" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pincode">Pincode *</label>
+                                <input type="text" id="pincode" placeholder="400001" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Delivery Address *</label>
+                            <textarea id="address" rows="2" placeholder="Flat No., Building, Street, Area..." required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="milkType">Milk Preference *</label>
+                                <select id="milkType" required>
+                                    <option value="">Select type...</option>
+                                    <option value="Whole Milk">Whole Milk (Full Fat)</option>
+                                    <option value="Toned Milk">Toned Milk (2%)</option>
+                                    <option value="Skimmed Milk">Skimmed Milk (Low Fat)</option>
+                                    <option value="Organic Milk">Organic Premium</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantity">Daily Quantity</label>
+                                <select id="quantity">
+                                    <option value="500ml">500 ml / day</option>
+                                    <option value="1L" selected>1 Litre / day</option>
+                                    <option value="2L">2 Litres / day</option>
+                                    <option value="5L">5 Litres / day</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="form-submit">✅ Register for Delivery</button>
+                    </form>
+                </div>
+                <div class="form-success" id="formSuccess">
+                    <div class="success-icon">✅</div>
+                    <h3>Registration Successful!</h3>
+                    <p>Thank you! We'll contact you within 24 hours to confirm your delivery schedule.</p>
+                    <button class="register-another" onclick="resetForm()">Register Another Customer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CUSTOMER TABLE ─── -->
+    <section class="customer-table-section" id="customerTable">
+        <div class="customer-table-inner">
+            <div class="table-header">
+                <h2>📊 Registered Customers</h2>
+                <button class="clear-btn" onclick="clearCustomers()">🗑 Clear All</button>
+            </div>
+            <div class="table-wrap">
+                <table id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>Pincode</th>
+                            <th>Milk Type</th>
+                            <th>Quantity</th>
+                            <th>Registered On</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersBody">
+                        <tr><td colspan="8" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ─── -->
     <footer>
         <div class="footer-content">
             <div>
-                <div class="footer-logo">Pure & Wholesome.</div>
+                <div class="footer-logo">Pure &amp; Wholesome.</div>
                 <p class="footer-text">Delivering the purest, freshest farm milk directly to your doorstep. Taste the clarity.</p>
             </div>
             <div class="footer-links">
@@ -554,48 +660,245 @@
                 <a href="#">Privacy Policy</a>
             </div>
         </div>
+        <div class="footer-bottom">© 2026 Pure & Wholesome. The Indian Dudh Wala. All rights reserved.</div>
     </footer>
 
+    <!-- ─── STORE LOCATOR MODAL ─── -->
+    <div class="modal-overlay" id="storeModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <span class="chip" style="margin-bottom:12px;">📍 Find a Store</span>
+                    <h2>Nearest Milk Stores</h2>
+                </div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+
+            <button class="location-btn" id="locateBtn" onclick="findNearestStore()">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg>
+                Use My Location to Find Nearest Store
+            </button>
+
+            <div class="divider">OR SEARCH BY CITY</div>
+
+            <div class="city-search">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="citySearch" placeholder="Type your city (e.g. Mumbai, Delhi, Pune...)" oninput="filterStores(this.value)">
+            </div>
+
+            <div class="stores-list" id="storesList"></div>
+        </div>
+    </div>
+
     <script>
+        // ── NAV SCROLL BEHAVIOR
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 60);
         });
 
-        // Automatically find and load the ChatGPT image regardless of its extension
+        // ── HERO IMAGE LOADER
         const baseName = "ChatGPT Image Jun 8, 2026, 11_46_22 AM";
         const extensions = ['.webp', '.png', '.jpg', '.jpeg'];
         let extIndex = 0;
         const heroSection = document.getElementById('home');
-
         function loadHeroImage() {
-            if (extIndex >= extensions.length) return; // Stop if none worked
-            
+            if (extIndex >= extensions.length) return;
             const testImg = new Image();
-            // Create the full filename
             const fileName = baseName + extensions[extIndex];
-            
-            testImg.onload = () => {
-                // If it loads successfully, set it as the background!
-                // We use encodeURI to safely handle the spaces and commas in the filename
-                heroSection.style.backgroundImage = `url('${encodeURI(fileName)}')`;
-            };
-            
-            testImg.onerror = () => {
-                // If it fails (e.g. 404 Not Found), try the next extension
-                extIndex++;
-                loadHeroImage();
-            };
-            
+            testImg.onload = () => { heroSection.style.backgroundImage = `url('${encodeURI(fileName)}')`; };
+            testImg.onerror = () => { extIndex++; loadHeroImage(); };
             testImg.src = fileName;
         }
-
-        // Start testing the image extensions
         loadHeroImage();
+
+        // ── STORE DATA (Add your real stores here!)
+        const ALL_STORES = [
+            { name: "Pure & Wholesome – Andheri West", city: "Mumbai", area: "Andheri West", address: "Shop 4, Lokhandwala Complex, Andheri West", phone: "022-2670-1234", hours: "5 AM – 10 PM", lat: 19.1368, lng: 72.8269 },
+            { name: "Pure & Wholesome – Bandra", city: "Mumbai", area: "Bandra", address: "12, Hill Road, Bandra West, Mumbai – 400050", phone: "022-2641-9876", hours: "5 AM – 9 PM", lat: 19.0596, lng: 72.8295 },
+            { name: "Pure & Wholesome – Dadar", city: "Mumbai", area: "Dadar", address: "45, Gokhale Road North, Dadar West, Mumbai", phone: "022-2437-5566", hours: "5 AM – 10 PM", lat: 19.0178, lng: 72.8478 },
+            { name: "Pure & Wholesome – Koregaon Park", city: "Pune", area: "Koregaon Park", address: "Lane 5, North Main Road, Koregaon Park, Pune", phone: "020-2615-3344", hours: "6 AM – 9 PM", lat: 18.5362, lng: 73.8944 },
+            { name: "Pure & Wholesome – Kothrud", city: "Pune", area: "Kothrud", address: "Paud Road, Near Chandani Chowk, Kothrud, Pune", phone: "020-2528-7788", hours: "5 AM – 10 PM", lat: 18.5074, lng: 73.8077 },
+            { name: "Pure & Wholesome – Connaught Place", city: "Delhi", area: "Connaught Place", address: "Block B, Connaught Place, New Delhi – 110001", phone: "011-2341-1122", hours: "6 AM – 10 PM", lat: 28.6315, lng: 77.2167 },
+            { name: "Pure & Wholesome – Lajpat Nagar", city: "Delhi", area: "Lajpat Nagar", address: "Main Market, Lajpat Nagar II, New Delhi", phone: "011-2983-4455", hours: "5 AM – 9 PM", lat: 28.5668, lng: 77.2434 },
+            { name: "Pure & Wholesome – Indiranagar", city: "Bangalore", area: "Indiranagar", address: "100 Feet Road, Indiranagar, Bangalore – 560038", phone: "080-2521-6677", hours: "5 AM – 10 PM", lat: 12.9784, lng: 77.6408 },
+            { name: "Pure & Wholesome – Koramangala", city: "Bangalore", area: "Koramangala", address: "6th Block, Koramangala, Bangalore – 560095", phone: "080-2553-8899", hours: "5 AM – 10 PM", lat: 12.9352, lng: 77.6245 },
+            { name: "Pure & Wholesome – Anna Nagar", city: "Chennai", area: "Anna Nagar", address: "2nd Avenue, Anna Nagar, Chennai – 600040", phone: "044-2626-5544", hours: "5 AM – 9 PM", lat: 13.0850, lng: 80.2101 },
+            { name: "Pure & Wholesome – Banjara Hills", city: "Hyderabad", area: "Banjara Hills", address: "Road No. 12, Banjara Hills, Hyderabad", phone: "040-2355-1122", hours: "6 AM – 10 PM", lat: 17.4156, lng: 78.4347 },
+            { name: "Pure & Wholesome – Salt Lake", city: "Kolkata", area: "Salt Lake", address: "Sector V, Salt Lake City, Kolkata – 700091", phone: "033-2357-6688", hours: "5 AM – 9 PM", lat: 22.5774, lng: 88.4321 },
+        ];
+
+        let displayedStores = [...ALL_STORES];
+
+        function openModal() {
+            document.getElementById('storeModal').classList.add('active');
+            document.getElementById('citySearch').value = '';
+            renderStores(ALL_STORES);
+        }
+        function closeModal() {
+            document.getElementById('storeModal').classList.remove('active');
+        }
+        document.getElementById('storeModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.getElementById('shopBtn').addEventListener('click', openModal);
+
+        function filterStores(query) {
+            const q = query.toLowerCase().trim();
+            const filtered = q ? ALL_STORES.filter(s =>
+                s.city.toLowerCase().includes(q) ||
+                s.area.toLowerCase().includes(q) ||
+                s.name.toLowerCase().includes(q)
+            ) : ALL_STORES;
+            renderStores(filtered);
+        }
+
+        function renderStores(stores, nearestIndex = -1) {
+            const list = document.getElementById('storesList');
+            if (!stores.length) {
+                list.innerHTML = '<div class="no-results">😔 No stores found in this city yet.<br><small>We\'re expanding soon!</small></div>';
+                return;
+            }
+            list.innerHTML = stores.map((s, i) => {
+                const isNearest = i === nearestIndex;
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name + ' ' + s.address)}`;
+                return `
+                <div class="store-card ${isNearest ? 'nearest' : ''}">
+                    <div class="store-icon">
+                        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <div class="store-info" style="flex:1">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+                            <h4>${s.name}</h4>
+                            ${isNearest ? '<span class="nearest-badge">📍 Nearest</span>' : ''}
+                        </div>
+                        <p>${s.address}</p>
+                        <div class="store-meta">
+                            <span>📞 ${s.phone}</span>
+                            <span>🕐 ${s.hours}</span>
+                        </div>
+                        <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-link">🗺 Open in Google Maps →</a>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function haversineDistance(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function findNearestStore() {
+            const btn = document.getElementById('locateBtn');
+            if (!navigator.geolocation) {
+                alert('Geolocation is not supported by your browser.');
+                return;
+            }
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Locating you...';
+            navigator.geolocation.getCurrentPosition(pos => {
+                const { latitude: lat, longitude: lng } = pos.coords;
+                let nearest = 0, minDist = Infinity;
+                ALL_STORES.forEach((s, i) => {
+                    const d = haversineDistance(lat, lng, s.lat, s.lng);
+                    if (d < minDist) { minDist = d; nearest = i; }
+                });
+                const sorted = [...ALL_STORES].sort((a, b) =>
+                    haversineDistance(lat, lng, a.lat, a.lng) - haversineDistance(lat, lng, b.lat, b.lng)
+                );
+                renderStores(sorted, 0);
+                btn.disabled = false;
+                btn.innerHTML = `✅ Found! Nearest: ${sorted[0].area}, ${sorted[0].city}`;
+            }, () => {
+                btn.disabled = false;
+                btn.innerHTML = '📍 Use My Location to Find Nearest Store';
+                alert('Unable to get your location. Please allow location access and try again, or search by city.');
+            });
+        }
+
+        // ── CUSTOMER REGISTRATION
+        let customers = JSON.parse(localStorage.getItem('milk_customers') || '[]');
+        updateStats();
+        renderCustomerTable();
+
+        document.getElementById('customerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name    = document.getElementById('fullName').value.trim();
+            const phone   = document.getElementById('phone').value.trim();
+            const email   = document.getElementById('email').value.trim();
+            const city    = document.getElementById('city').value.trim();
+            const pincode = document.getElementById('pincode').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const milk    = document.getElementById('milkType').value;
+            const qty     = document.getElementById('quantity').value;
+
+            if (!name || !phone || !city || !pincode || !address || !milk) {
+                alert('Please fill in all required fields (*).');
+                return;
+            }
+            if (!/^\d{10}$/.test(phone.replace(/\s/g, ''))) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+
+            const customer = {
+                id: Date.now(),
+                name, phone, email, city, pincode, address, milk, qty,
+                date: new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
+            };
+            customers.push(customer);
+            localStorage.setItem('milk_customers', JSON.stringify(customers));
+
+            document.getElementById('formContent').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+            updateStats();
+            renderCustomerTable();
+        });
+
+        function resetForm() {
+            document.getElementById('customerForm').reset();
+            document.getElementById('formContent').style.display = 'block';
+            document.getElementById('formSuccess').style.display = 'none';
+        }
+
+        function updateStats() {
+            document.getElementById('totalCustomers').textContent = customers.length;
+        }
+
+        function renderCustomerTable() {
+            const tbody = document.getElementById('customersBody');
+            if (!customers.length) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>';
+                return;
+            }
+            const tagClass = { 'Whole Milk': 'tag-whole', 'Toned Milk': 'tag-toned', 'Skimmed Milk': 'tag-skim', 'Organic Milk': 'tag-organic' };
+            tbody.innerHTML = customers.map((c, i) => `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td><strong>${c.name}</strong></td>
+                    <td>${c.phone}</td>
+                    <td>${c.city}</td>
+                    <td>${c.pincode}</td>
+                    <td><span class="tag ${tagClass[c.milk] || ''}">${c.milk}</span></td>
+                    <td>${c.qty}</td>
+                    <td>${c.date}</td>
+                </tr>
+            `).join('');
+        }
+
+        function clearCustomers() {
+            if (!confirm('Are you sure you want to delete all customer records? This cannot be undone.')) return;
+            customers = [];
+            localStorage.removeItem('milk_customers');
+            updateStats();
+            renderCustomerTable();
+        }
     </script>
 </body>
 </html>
