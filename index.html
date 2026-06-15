@@ -696,20 +696,59 @@
         }
         loadHeroImage();
 
-        // ── STORE DATA (Add your real stores here!)
-        const ALL_STORES = [
-          { 
-  name: "Desi Farms Milk & Dairy",        // 👈 Store name
-  city: "Navi Mumbai",              // 👈 City
-  area: "Seawoods",            // 👈 Area/Locality
-  address: "Seawoods Estate Road, Thane, Maharashtra 400706",    // 👈 Full address
-  phone: "00000000000",          // 👈 Store phone
-  hours: "8 AM – 10 PM",         // 👈 Opening hours
-  lat: 19.012057,                   // 👈 GPS Latitude (from Google Maps)
-  lng: 73.014729                    // 👈 GPS Longitude (from Google Maps)
-},
+        // ── GOOGLE SHEETS LIVE STORE DATA
+        let ALL_STORES = [];
+        let displayedStores = [];
+        const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS4lwnKoSCViYfefGnoaR7dBJM2X9SFS05hxBqDXvwTbvhQpt65g5hQ5lfG-_6Kxd3xlcuveVJwhLzt/pub?output=csv";
 
-        let displayedStores = [...ALL_STORES];
+        async function fetchGoogleSheetStores() {
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const csvText = await response.text();
+                
+                const lines = csvText.split('\n').filter(line => line.trim() !== '');
+                if(lines.length < 2) return;
+                
+                const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+                const nameIdx = headers.findIndex(h => h.includes('name'));
+                const cityIdx = headers.findIndex(h => h.includes('city'));
+                const areaIdx = headers.findIndex(h => h.includes('area'));
+                const addrIdx = headers.findIndex(h => h.includes('adress') || h.includes('address'));
+                const phoneIdx = headers.findIndex(h => h.includes('phone'));
+                const hoursIdx = headers.findIndex(h => h.includes('hours'));
+                const latIdx = headers.findIndex(h => h.includes('lat'));
+                const lngIdx = headers.findIndex(h => h.includes('lng'));
+
+                const stores = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const row = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
+                    if (row.length < 2 || !row[nameIdx]) continue;
+
+                    stores.push({
+                        name: row[nameIdx] || "Unnamed Store",
+                        city: row[cityIdx] || "",
+                        area: row[areaIdx] || "",
+                        address: row[addrIdx] || "",
+                        phone: row[phoneIdx] || "",
+                        hours: row[hoursIdx] || "",
+                        lat: parseFloat(row[latIdx]) || 0,
+                        lng: parseFloat(row[lngIdx]) || 0
+                    });
+                }
+                ALL_STORES = stores;
+                displayedStores = [...ALL_STORES];
+                
+                // If modal is open, re-render it
+                if (document.getElementById('storeModal').classList.contains('active')) {
+                    renderStores(displayedStores);
+                }
+            } catch (err) {
+                console.error("Error loading stores from Google Sheets:", err);
+            }
+        }
+        
+        // Fetch stores immediately on load
+        fetchGoogleSheetStores();
 
         function openModal() {
             document.getElementById('storeModal').classList.add('active');
