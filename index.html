@@ -270,10 +270,17 @@
         .store-info .store-meta { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; color: var(--secondary); }
         .store-info .store-meta span { display: flex; align-items: center; gap: 4px; }
         .map-link {
-            margin-top: 10px; display: inline-block; font-size: 13px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
             color: var(--primary); text-decoration: none; transition: opacity 0.2s;
+            background: rgba(28,100,142,0.08); padding: 6px 12px; border-radius: 6px;
         }
-        .map-link:hover { opacity: 0.7; }
+        .map-link:hover { opacity: 0.8; }
+        .whatsapp-link {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;
+            color: #fff; background: #25D366; text-decoration: none; transition: opacity 0.2s;
+            padding: 6px 12px; border-radius: 6px;
+        }
+        .whatsapp-link:hover { opacity: 0.8; }
         .no-results { text-align: center; padding: 40px 20px; color: var(--secondary); font-size: 16px; }
         @media (max-width: 600px) {
             .modal-box { padding: 24px 20px; }
@@ -800,7 +807,10 @@
                             <span>📞 ${s.phone}</span>
                             <span>🕐 ${s.hours}</span>
                         </div>
-                        <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-link">🗺 Open in Google Maps →</a>
+                        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+                            <a href="${mapsUrl}" target="_blank" rel="noopener" class="map-link">🗺 Maps</a>
+                            ${s.phone ? `<a href="https://wa.me/91${s.phone.replace(/\D/g,'')}?text=Hi%2C%20I%20am%20interested%20in%20ordering%20Natural%20Milk!" target="_blank" rel="noopener" class="whatsapp-link">💬 WhatsApp</a>` : ''}
+                        </div>
                     </div>
                 </div>`;
             }).join('');
