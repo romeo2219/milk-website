@@ -463,7 +463,7 @@
             </p>
             <div class="actions">
                 <button class="btn-primary" id="shopBtn">🛒 Shop Natural Milk</button>
-                <button class="btn-secondary">Learn Our Process</button>
+                <button class="btn-secondary" onclick="document.getElementById('whyListModal').classList.add('active')">💼 Why List Your Store With Us?</button>
             </div>
 
             <!-- Features Grid -->
@@ -521,84 +521,79 @@
         <div class="admin-inner">
             <div class="admin-left">
                 <div class="admin-badge">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
-                    Customer Portal
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V7a2 2 0 012-2h4l2-3h4l2 3h4a2 2 0 012 2v12a2 2 0 01-2 2z"/></svg>
+                    Partner Portal
                 </div>
-                <h2>Register for Home Delivery</h2>
-                <p>Sign up and we'll get fresh milk delivered right to your doorstep every morning. Fill in your details and we'll reach out to set up your delivery schedule.</p>
+                <h2>List Your Store on Our Network</h2>
+                <p>Are you a natural milk seller or dairy farm owner? Register your store for just <strong style="color:#4fc3f7">₹299</strong> and get your store published on our website. We'll promote your store to local Facebook groups in your area so customers can find you directly!</p>
                 <div class="admin-stat-row">
                     <div class="admin-stat">
                         <div class="stat-num" id="totalCustomers">0</div>
-                        <div class="stat-label">Registered Customers</div>
+                        <div class="stat-label">Store Applications</div>
                     </div>
                     <div class="admin-stat">
-                        <div class="stat-num">24h</div>
-                        <div class="stat-label">Farm to Doorstep</div>
+                        <div class="stat-num">₹299</div>
+                        <div class="stat-label">Per Store Listing</div>
                     </div>
                     <div class="admin-stat">
-                        <div class="stat-num">Pure</div>
-                        <div class="stat-label">Natural Milk</div>
+                        <div class="stat-num">📢</div>
+                        <div class="stat-label">Local FB Promotion</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Registration Form -->
+            <!-- Partner Registration Form -->
             <div class="reg-form">
                 <div id="formContent">
-                    <h3>📋 Customer Registration</h3>
+                    <h3>🏪 Store Registration — ₹299</h3>
                     <form id="customerForm" novalidate>
-                        <div class="form-group">
-                            <label for="fullName">Full Name *</label>
-                            <input type="text" id="fullName" placeholder="Your full name" required>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="storeName">Store / Business Name *</label>
+                                <input type="text" id="storeName" placeholder="e.g. Desi Farms Dairy" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fullName">Owner Name *</label>
+                                <input type="text" id="fullName" placeholder="Your full name" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" placeholder="your@email.com">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Contact Number *</label>
+                                <input type="tel" id="phone" placeholder="e.g. 98765 43210" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="your@email.com">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="city">City *</label>
                             <input type="text" id="city" placeholder="e.g. Mumbai" required>
                         </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="milkType">Milk Preference *</label>
-                                <select id="milkType" required>
-                                    <option value="">Select type...</option>
-                                    <option value="Whole Milk">Whole Milk (Full Fat)</option>
-                                    <option value="Toned Milk">Toned Milk (2%)</option>
-                                    <option value="Skimmed Milk">Skimmed Milk (Low Fat)</option>
-                                    <option value="Natural Milk">Natural Premium</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="quantity">Daily Quantity</label>
-                                <select id="quantity">
-                                    <option value="500ml">500 ml / day</option>
-                                    <option value="1L" selected>1 Litre / day</option>
-                                    <option value="2L">2 Litres / day</option>
-                                    <option value="5L">5 Litres / day</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label for="storeAddress">Full Store Address *</label>
+                            <textarea id="storeAddress" rows="2" placeholder="Shop No., Building, Street, Area, Pincode..." required></textarea>
                         </div>
-                        <button type="submit" class="form-submit">✅ Register Now</button>
+
+                        <button type="submit" class="form-submit">🚀 Submit Store Application</button>
                     </form>
                 </div>
                 <div class="form-success" id="formSuccess">
                     <div class="success-icon">✅</div>
-                    <h3>Registration Successful!</h3>
-                    <p>Thank you! We'll contact you within 24 hours to confirm your delivery schedule.</p>
-                    <button class="register-another" onclick="resetForm()">Register Another Customer</button>
+                    <h3>Application Submitted!</h3>
+                    <p>Thank you! Our team will contact you soon to complete the ₹299 payment and get your store published.</p>
+                    <button class="register-another" onclick="resetForm()">Submit Another Store</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ─── CUSTOMER TABLE ─── -->
+    <!-- ─── PARTNER APPLICATIONS TABLE ─── -->
     <section class="customer-table-section" id="customerTable">
         <div class="customer-table-inner">
             <div class="table-header">
-                <h2>📊 Registered Customers</h2>
+                <h2>📊 Store Applications</h2>
                 <button class="clear-btn" onclick="clearCustomers()">🗑 Clear All</button>
             </div>
             <div class="table-wrap">
@@ -606,21 +601,67 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
+                            <th>Store Name</th>
+                            <th>Owner</th>
+                            <th>Phone</th>
                             <th>City</th>
-                            <th>Milk Type</th>
-                            <th>Quantity</th>
-                            <th>Registered On</th>
+                            <th>Address</th>
+                            <th>Applied On</th>
                         </tr>
                     </thead>
                     <tbody id="customersBody">
-                        <tr><td colspan="8" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>
+                        <tr><td colspan="7" class="empty-table">No applications yet. Be the first to list your store!</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
+
+    <!-- ─── WHY LIST YOUR STORE MODAL ─── -->
+    <div class="modal-overlay" id="whyListModal">
+        <div class="modal-box" style="max-width:700px;">
+            <div class="modal-header">
+                <h2>💼 Why List Your Store With Us?</h2>
+                <button class="modal-close" onclick="document.getElementById('whyListModal').classList.remove('active')">✕</button>
+            </div>
+            <div style="padding: 8px 0 20px 0;">
+                <div style="background:rgba(79,195,247,0.1);border-left:4px solid #4fc3f7;border-radius:8px;padding:14px 18px;margin-bottom:20px;font-size:14px;color:#e0f4ff;line-height:1.7;">
+                    🥛 <strong>Only Natural Milk products are listed here.</strong> Our platform is a trusted space free from brands selling low-quality or adulterated milk. Every store listed is verified as a genuine natural milk seller.
+                </div>
+                <div style="display:grid;gap:16px;">
+                    <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+                        <div style="font-size:28px;flex-shrink:0;">📣</div>
+                        <div>
+                            <h4 style="color:#fff;margin:0 0 6px;font-size:15px;">Local Facebook Group Promotion</h4>
+                            <p style="color:#aaa;font-size:13px;margin:0;line-height:1.6;">Your store details will be shared in local Facebook groups and WhatsApp communities of your area. Customers nearby will discover your store and reach out directly to you.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+                        <div style="font-size:28px;flex-shrink:0;">🌐</div>
+                        <div>
+                            <h4 style="color:#fff;margin:0 0 6px;font-size:15px;">Your Store on Our Website — Forever</h4>
+                            <p style="color:#aaa;font-size:13px;margin:0;line-height:1.6;">We will publish your store name, address, contact number, timing, and a WhatsApp button on our website. Customers can find you through Google Maps and WhatsApp directly.</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+                        <div style="font-size:28px;flex-shrink:0;">🚫</div>
+                        <div>
+                            <h4 style="color:#fff;margin:0 0 6px;font-size:15px;">Stay Ahead of Big Brands</h4>
+                            <p style="color:#aaa;font-size:13px;margin:0;line-height:1.6;">Large companies are selling low quality, processed milk. Our platform is dedicated ONLY to natural milk sellers. Customers who come here are specifically looking for fresh, real milk — your product!</p>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;">
+                        <div style="font-size:28px;flex-shrink:0;">💰</div>
+                        <div>
+                            <h4 style="color:#fff;margin:0 0 6px;font-size:15px;">Only ₹299 for Listing</h4>
+                            <p style="color:#aaa;font-size:13px;margin:0;line-height:1.6;">For just ₹299, your store gets published on the website and promoted to local customers. A single new customer pays for this listing many times over!</p>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('whyListModal').classList.remove('active'); document.getElementById('admin').scrollIntoView({behavior:'smooth'});" class="form-submit" style="margin-top:20px;width:100%;">🚀 Register My Store — ₹299</button>
+            </div>
+        </div>
+    </div>
 
     <!-- ─── FOOTER ─── -->
     <footer>
@@ -852,33 +893,32 @@
             });
         }
 
-        // ── CUSTOMER REGISTRATION
-        let customers = JSON.parse(localStorage.getItem('milk_customers') || '[]');
+        // ── PARTNER / STORE REGISTRATION
+        let customers = JSON.parse(localStorage.getItem('milk_partners') || '[]');
         updateStats();
         renderCustomerTable();
 
         document.getElementById('customerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const name    = document.getElementById('fullName').value.trim();
-            const email   = document.getElementById('email').value.trim();
-            const city    = document.getElementById('city').value.trim();
-            const pincode = '';
-            const address = '';
-            const milk    = document.getElementById('milkType').value;
-            const qty     = document.getElementById('quantity').value;
+            const storeName    = document.getElementById('storeName').value.trim();
+            const ownerName    = document.getElementById('fullName').value.trim();
+            const phone        = document.getElementById('phone').value.trim();
+            const email        = document.getElementById('email').value.trim();
+            const city         = document.getElementById('city').value.trim();
+            const storeAddress = document.getElementById('storeAddress').value.trim();
 
-            if (!name || !city || !milk) {
+            if (!storeName || !ownerName || !phone || !city || !storeAddress) {
                 alert('Please fill in all required fields (*).');
                 return;
             }
 
             const customer = {
                 id: Date.now(),
-                name, email, city, milk, qty,
+                storeName, ownerName, phone, email, city, storeAddress,
                 date: new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
             };
             customers.push(customer);
-            localStorage.setItem('milk_customers', JSON.stringify(customers));
+            localStorage.setItem('milk_partners', JSON.stringify(customers));
 
             document.getElementById('formContent').style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
@@ -899,27 +939,26 @@
         function renderCustomerTable() {
             const tbody = document.getElementById('customersBody');
             if (!customers.length) {
-                tbody.innerHTML = '<tr><td colspan="6" class="empty-table">No customers registered yet. Fill the form above to get started!</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-table">No applications yet. Be the first to list your store!</td></tr>';
                 return;
             }
-            const tagClass = { 'Whole Milk': 'tag-whole', 'Toned Milk': 'tag-toned', 'Skimmed Milk': 'tag-skim', 'Organic Milk': 'tag-organic' };
             tbody.innerHTML = customers.map((c, i) => `
                 <tr>
                     <td>${i + 1}</td>
-                    <td><strong>${c.name}</strong></td>
-                    <td>${c.email || '—'}</td>
+                    <td><strong>${c.storeName}</strong></td>
+                    <td>${c.ownerName}</td>
+                    <td>${c.phone}</td>
                     <td>${c.city}</td>
-                    <td><span class="tag ${tagClass[c.milk] || ''}">${c.milk}</span></td>
-                    <td>${c.qty}</td>
+                    <td style="font-size:12px;">${c.storeAddress}</td>
                     <td>${c.date}</td>
                 </tr>
             `).join('');
         }
 
         function clearCustomers() {
-            if (!confirm('Are you sure you want to delete all customer records? This cannot be undone.')) return;
+            if (!confirm('Are you sure you want to delete all store applications? This cannot be undone.')) return;
             customers = [];
-            localStorage.removeItem('milk_customers');
+            localStorage.removeItem('milk_partners');
             updateStats();
             renderCustomerTable();
         }
