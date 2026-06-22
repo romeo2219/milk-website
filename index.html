@@ -470,17 +470,17 @@
             <div class="features-grid">
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                     </div>
-                    <h3>Fresh from the Farm</h3>
-                    <p class="body-md">Sourced locally from free-range, grass-fed cows. Processed within 24 hours to guarantee absolute freshness.</p>
+                    <h3>Premium Quality Guaranteed</h3>
+                    <p class="body-md">We ensure that every drop meets the highest standards of purity and taste. Experience the rich, wholesome goodness of unadulterated natural milk.</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                     </div>
-                    <h3>No Additives</h3>
-                    <p class="body-md">Zero preservatives, no artificial hormones, and antibiotic-free. Just pure, wholesome milk the way nature intended.</p>
+                    <h3>Trusted Local Sources</h3>
+                    <p class="body-md">We partner with verified, passionate local farmers and sellers who share our commitment to providing only the best natural milk products to the community.</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
@@ -550,7 +550,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="storeName">Store / Business Name *</label>
-                                <input type="text" id="storeName" placeholder="e.g. Desi Farms Dairy" required>
+                                <input type="text" id="storeName" placeholder="e.g. XYZ" required>
                             </div>
                             <div class="form-group">
                                 <label for="fullName">Owner Name *</label>
@@ -560,7 +560,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="phone">Contact Number *</label>
-                                <input type="tel" id="phone" placeholder="e.g. 98765 43210" required>
+                                <input type="tel" id="phone" placeholder="e.g. 0000000000" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
@@ -722,6 +722,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ── NAV SCROLL BEHAVIOR
         window.addEventListener('scroll', () => {
@@ -893,13 +894,36 @@
             });
         }
 
-        // ── PARTNER / STORE REGISTRATION
-        let customers = JSON.parse(localStorage.getItem('milk_partners') || '[]');
-        updateStats();
-        renderCustomerTable();
+        // ── SUPABASE INTEGRATION & REGISTRATION
+        const supabaseUrl = 'https://wleeetsmytogamtelmtk.supabase.co';
+        const supabaseKey = 'sb_publishable_SLyzbO9FbJPeArl1KqvCPg_AILXrV08';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        document.getElementById('customerForm').addEventListener('submit', function(e) {
+        let customers = [];
+        
+        async function fetchApplications() {
+            const { data, error } = await supabase
+                .from('store_applications')
+                .select('*')
+                .order('created_at', { ascending: false });
+                
+            if (error) {
+                console.error('Error fetching applications:', error);
+                return;
+            }
+            customers = data || [];
+            updateStats();
+            renderCustomerTable();
+        }
+
+        fetchApplications();
+
+        document.getElementById('customerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const submitBtn = this.querySelector('.form-submit');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ Submitting...';
+
             const storeName    = document.getElementById('storeName').value.trim();
             const ownerName    = document.getElementById('fullName').value.trim();
             const phone        = document.getElementById('phone').value.trim();
@@ -909,21 +933,32 @@
 
             if (!storeName || !ownerName || !phone || !city || !storeAddress) {
                 alert('Please fill in all required fields (*).');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '🚀 Submit Store Application';
                 return;
             }
 
-            const customer = {
-                id: Date.now(),
-                storeName, ownerName, phone, email, city, storeAddress,
-                date: new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' })
-            };
-            customers.push(customer);
-            localStorage.setItem('milk_partners', JSON.stringify(customers));
+            const { data, error } = await supabase
+                .from('store_applications')
+                .insert([
+                    { store_name: storeName, owner_name: ownerName, phone, email, city, store_address: storeAddress }
+                ]);
+
+            if (error) {
+                console.error('Error saving application:', error);
+                alert('There was an error saving your application. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '🚀 Submit Store Application';
+                return;
+            }
 
             document.getElementById('formContent').style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
-            updateStats();
-            renderCustomerTable();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '🚀 Submit Store Application';
+            
+            // Refresh table
+            fetchApplications();
         });
 
         function resetForm() {
@@ -942,25 +977,34 @@
                 tbody.innerHTML = '<tr><td colspan="7" class="empty-table">No applications yet. Be the first to list your store!</td></tr>';
                 return;
             }
-            tbody.innerHTML = customers.map((c, i) => `
+            tbody.innerHTML = customers.map((c, i) => {
+                const date = new Date(c.created_at).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+                return `
                 <tr>
                     <td>${i + 1}</td>
-                    <td><strong>${c.storeName}</strong></td>
-                    <td>${c.ownerName}</td>
+                    <td><strong>${c.store_name}</strong></td>
+                    <td>${c.owner_name}</td>
                     <td>${c.phone}</td>
                     <td>${c.city}</td>
-                    <td style="font-size:12px;">${c.storeAddress}</td>
-                    <td>${c.date}</td>
+                    <td style="font-size:12px;">${c.store_address}</td>
+                    <td>${date}</td>
                 </tr>
-            `).join('');
+                `;
+            }).join('');
         }
 
-        function clearCustomers() {
+        async function clearCustomers() {
             if (!confirm('Are you sure you want to delete all store applications? This cannot be undone.')) return;
-            customers = [];
-            localStorage.removeItem('milk_partners');
-            updateStats();
-            renderCustomerTable();
+            // Note: Deleting all rows from frontend usually requires specific RLS policies allowing it, or calling a stored procedure.
+            // For safety, bulk delete from frontend is typically restricted.
+            // We'll attempt a bulk delete if RLS allows.
+            const { error } = await supabase.from('store_applications').delete().neq('id', 0);
+            if(error) {
+                alert('Error deleting records. Please check Supabase RLS policies.');
+                console.error(error);
+                return;
+            }
+            fetchApplications();
         }
     </script>
 </body>
