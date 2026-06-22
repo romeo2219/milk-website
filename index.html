@@ -730,20 +730,11 @@
             navbar.classList.toggle('scrolled', window.scrollY > 60);
         });
 
-        // ── HERO IMAGE LOADER
-        const baseName = "ChatGPT Image Jun 8, 2026, 11_46_22 AM";
-        const extensions = ['.webp', '.png', '.jpg', '.jpeg'];
-        let extIndex = 0;
+        // ── HERO IMAGE
         const heroSection = document.getElementById('home');
-        function loadHeroImage() {
-            if (extIndex >= extensions.length) return;
-            const testImg = new Image();
-            const fileName = baseName + extensions[extIndex];
-            testImg.onload = () => { heroSection.style.backgroundImage = `url('${encodeURI(fileName)}')`; };
-            testImg.onerror = () => { extIndex++; loadHeroImage(); };
-            testImg.src = fileName;
-        }
-        loadHeroImage();
+        // Using a high-quality placeholder image of natural milk. 
+        // You can change this URL to any image link you prefer!
+        heroSection.style.backgroundImage = "url('https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=2000&auto=format&fit=crop')";
 
         // ── GOOGLE SHEETS LIVE STORE DATA
         let ALL_STORES = [];
