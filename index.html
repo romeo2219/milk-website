@@ -888,12 +888,12 @@
         // ── SUPABASE INTEGRATION & REGISTRATION
         const supabaseUrl = 'https://wleeetsmytogamtelmtk.supabase.co';
         const supabaseKey = 'sb_publishable_SLyzbO9FbJPeArl1KqvCPg_AILXrV08';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         let customers = [];
         
         async function fetchApplications() {
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('store_applications')
                 .select('*')
                 .order('created_at', { ascending: false });
@@ -929,7 +929,7 @@
                 return;
             }
 
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('store_applications')
                 .insert([
                     { store_name: storeName, owner_name: ownerName, phone, email, city, store_address: storeAddress }
@@ -989,7 +989,7 @@
             // Note: Deleting all rows from frontend usually requires specific RLS policies allowing it, or calling a stored procedure.
             // For safety, bulk delete from frontend is typically restricted.
             // We'll attempt a bulk delete if RLS allows.
-            const { error } = await supabase.from('store_applications').delete().neq('id', 0);
+            const { error } = await supabaseClient.from('store_applications').delete().neq('id', 0);
             if(error) {
                 alert('Error deleting records. Please check Supabase RLS policies.');
                 console.error(error);
