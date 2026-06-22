@@ -589,33 +589,7 @@
         </div>
     </section>
 
-    <!-- ─── PARTNER APPLICATIONS TABLE ─── -->
-    <section class="customer-table-section" id="customerTable">
-        <div class="customer-table-inner">
-            <div class="table-header">
-                <h2>📊 Store Applications</h2>
-                <button class="clear-btn" onclick="clearCustomers()">🗑 Clear All</button>
-            </div>
-            <div class="table-wrap">
-                <table id="customersTable">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Store Name</th>
-                            <th>Owner</th>
-                            <th>Phone</th>
-                            <th>City</th>
-                            <th>Address</th>
-                            <th>Applied On</th>
-                        </tr>
-                    </thead>
-                    <tbody id="customersBody">
-                        <tr><td colspan="7" class="empty-table">No applications yet. Be the first to list your store!</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+
 
     <!-- ─── WHY LIST YOUR STORE MODAL ─── -->
     <div class="modal-overlay" id="whyListModal">
@@ -890,24 +864,7 @@
         const supabaseKey = 'sb_publishable_SLyzbO9FbJPeArl1KqvCPg_AILXrV08';
         const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-        let customers = [];
-        
-        async function fetchApplications() {
-            const { data, error } = await supabaseClient
-                .from('store_applications')
-                .select('*')
-                .order('created_at', { ascending: false });
-                
-            if (error) {
-                console.error('Error fetching applications:', error);
-                return;
-            }
-            customers = data || [];
-            updateStats();
-            renderCustomerTable();
-        }
 
-        fetchApplications();
 
         document.getElementById('customerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -948,8 +905,8 @@
             submitBtn.disabled = false;
             submitBtn.innerHTML = '🚀 Submit Store Application';
             
-            // Refresh table
-            fetchApplications();
+            // Form successfully submitted - do nothing more as table is hidden
+
         });
 
         function resetForm() {
@@ -958,45 +915,7 @@
             document.getElementById('formSuccess').style.display = 'none';
         }
 
-        function updateStats() {
-            document.getElementById('totalCustomers').textContent = customers.length;
-        }
 
-        function renderCustomerTable() {
-            const tbody = document.getElementById('customersBody');
-            if (!customers.length) {
-                tbody.innerHTML = '<tr><td colspan="7" class="empty-table">No applications yet. Be the first to list your store!</td></tr>';
-                return;
-            }
-            tbody.innerHTML = customers.map((c, i) => {
-                const date = new Date(c.created_at).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-                return `
-                <tr>
-                    <td>${i + 1}</td>
-                    <td><strong>${c.store_name}</strong></td>
-                    <td>${c.owner_name}</td>
-                    <td>${c.phone}</td>
-                    <td>${c.city}</td>
-                    <td style="font-size:12px;">${c.store_address}</td>
-                    <td>${date}</td>
-                </tr>
-                `;
-            }).join('');
-        }
-
-        async function clearCustomers() {
-            if (!confirm('Are you sure you want to delete all store applications? This cannot be undone.')) return;
-            // Note: Deleting all rows from frontend usually requires specific RLS policies allowing it, or calling a stored procedure.
-            // For safety, bulk delete from frontend is typically restricted.
-            // We'll attempt a bulk delete if RLS allows.
-            const { error } = await supabaseClient.from('store_applications').delete().neq('id', 0);
-            if(error) {
-                alert('Error deleting records. Please check Supabase RLS policies.');
-                console.error(error);
-                return;
-            }
-            fetchApplications();
-        }
     </script>
 </body>
 </html>
